@@ -17,14 +17,14 @@ describe('Login', () => {
             const bodyLogin = { ... postLogin }
             
             // Fazer requisição POST para o endpoint /login
-            const resposta = await request(process.env.BASE_URL)
-                .post('/login')
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .post('/login') // Definir endpoint login
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .send(bodyLogin) // Enviar dados no corpo da requisição
             
             // Logs para debug (podem ser removidos em produção)
-            console.log(resposta.body)
-            console.log(resposta.status)    
+            console.log(resposta.body) // Log do corpo da resposta
+            console.log(resposta.status) // Log do status da resposta
 
             // Assertions para validar a resposta
             expect(resposta.body.token).to.be.a('string'); // Verificar se o token é uma string
@@ -38,14 +38,14 @@ describe('Login', () => {
             const bodyLogin = { ...postLogin, senha: 'senha_incorreta' };
             
             // Fazer requisição POST para o endpoint /login
-            const resposta = await request(process.env.BASE_URL)
-                .post('/login')
-                .set('Content-Type', 'application/json')
-                .send(bodyLogin);
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .post('/login') // Definir endpoint login
+                .set('Content-Type', 'application/json') // Definir header Content-Type
+                .send(bodyLogin); // Enviar dados no corpo da requisição
             
             // Logs para debug
-            console.log(resposta.body);
-            console.log(resposta.status);
+            console.log(resposta.body); // Log do corpo da resposta
+            console.log(resposta.status); // Log do status da resposta
 
             // Verificar se retorna status 401 (Unauthorized)
             expect(resposta.status).to.equal(401);
@@ -57,14 +57,14 @@ describe('Login', () => {
             const bodyLogin = {};
             
             // Fazer requisição POST para o endpoint /login
-            const resposta = await request(process.env.BASE_URL)
-                .post('/login')
-                .set('Content-Type', 'application/json')
-                .send(bodyLogin);
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .post('/login') // Definir endpoint login
+                .set('Content-Type', 'application/json') // Definir header Content-Type
+                .send(bodyLogin); // Enviar dados no corpo da requisição
             
             // Logs para debug
-            console.log(resposta.body);
-            console.log(resposta.status);
+            console.log(resposta.body); // Log do corpo da resposta
+            console.log(resposta.status); // Log do status da resposta
 
             // Verificar se retorna status 400 (Bad Request)
             expect(resposta.status).to.equal(400);
