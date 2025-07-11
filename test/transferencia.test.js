@@ -28,8 +28,8 @@ describe('Transferencias', () => {
             const bodyTransferencias = { ...postTransferencias }
             
             // Fazer requisição POST para o endpoint /transferencias
-            const resposta = await request(process.env.BASE_URL)
-                .post('/transferencias')
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .post('/transferencias') // Definir endpoint transferencias
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(bodyTransferencias) // Enviar dados no corpo da requisição
@@ -45,8 +45,8 @@ describe('Transferencias', () => {
             const bodyTransferencias = { ...postTransferencias, valor: 7 }
             
             // Fazer requisição POST para o endpoint /transferencias
-            const resposta = await request(process.env.BASE_URL)
-                .post('/transferencias')
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .post('/transferencias') // Definir endpoint transferencias
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(bodyTransferencias) // Enviar dados no corpo da requisição
@@ -62,8 +62,8 @@ describe('Transferencias', () => {
         // Teste para buscar uma transferência específica por ID
         it('Deve retornar sucesso com 200 e dados iguais ao registro de transferencia contido no banco de dados quando o id for válido', async() => {
             // Fazer requisição GET para buscar a transferência com ID 5
-            const resposta = await request(process.env.BASE_URL)
-                .get('/transferencias/5')
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .get('/transferencias/5') // Definir endpoint transferencias com ID 5
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
 
             // Assertions para validar a resposta
@@ -82,12 +82,12 @@ describe('Transferencias', () => {
         // Teste para verificar a paginação da listagem de transferências
         it('Deve retornar 10 elementos na paginação quando informar limite de 10 registros', async() => {
             // Fazer requisição GET com parâmetros de paginação
-            const resposta = await request(process.env.BASE_URL)
+            const resposta = await request(process.env.BASE_URL) // Definir base url
                 .get('/transferencias?page=1&limit=10') // Definir página 1 com limite de 10 registros
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
 
             // Logs para debug (podem ser removidos em produção)
-            console.log(resposta.body)
+            console.log(resposta.body) // Log do corpo da resposta
             
             // Assertions para validar a resposta
             expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
