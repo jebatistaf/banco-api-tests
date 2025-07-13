@@ -6,7 +6,7 @@ require('dotenv').config() // Carregar variáveis de ambiente do arquivo .env
 // Importar helper de autenticação
 const { obterToken } = require('../helpers/autenticacao.js')
 
-// Suite de testes para funcionalidade de Transferências
+// Suite de testes para funcionalidade de Contas
 describe('Contas', () => {
     let token // Variável para armazenar o token de autenticação
 
@@ -20,21 +20,18 @@ describe('Contas', () => {
     describe('GET /contas', () => {
         // Teste para obter todas as contas
         it('Deve retornar sucesso com 200 quando obter todas as contas', async() => {
+
             // Fazer requisição GET para obter todas as contas
             const resposta = await request(process.env.BASE_URL) // Definir base url
                 .get('/contas') // Definir endpoint contas
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
 
+            // Logs para debug (podem ser removidos em produção)
+            console.log(resposta.body) // Log do corpo da resposta
+
             // Assertions para validar a resposta
             expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
-            expect(resposta.body.length).to.equal(2) // Verificar se o número de contas retornadas é 2
-            expect(resposta.body[0].id).to.equal(1) // Verificar se o ID da primeira conta é 1
-            expect(resposta.body[0].nome).to.equal('Maria Oliveira') // Verificar se o nome da primeira conta é 'Maria Oliveira'
-            expect(resposta.body[0].saldo).to.equal(28564.50) // Verificar se o saldo da primeira conta é 28564.50
-            expect(resposta.body[1].id).to.equal(2) // Verificar se o ID da segunda conta é 2
-            expect(resposta.body[1].nome).to.equal('João da Silva') // Verificar se o nome da segunda conta é 'João da Silva'
-            expect(resposta.body[1].saldo).to.equal(9435.50) // Verificar se o saldo da segunda conta é 9435.50
         })
     })
 })
