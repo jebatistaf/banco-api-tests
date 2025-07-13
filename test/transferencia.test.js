@@ -95,4 +95,74 @@ describe('Transferencias', () => {
             expect(resposta.body.transferencias).to.have.lengthOf(10) // Verificar se há exatamente 10 transferências na lista
         })
     })
+
+    // Grupo de testes para o endpoint PATCH /transferencias/{id}
+    describe('PATCH /transferencias/{id}', () => {
+        // Teste para alteração parcial de uma transferência
+        it('Deve retornar sucesso com 200 quando alterar parcialmente uma transferencia com dados válidos', async() => {
+            // Dados para alteração parcial da transferência
+            const dadosAlteracao = {
+                valor: 25.50
+            }
+            
+            // Fazer requisição PATCH para alterar a transferência com ID 5
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .patch('/transferencias/5') // Definir endpoint transferencias com ID 5
+                .set('Content-Type', 'application/json') // Definir header Content-Type
+                .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
+                .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
+
+            // Assertions para validar a resposta
+            expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
+            expect(resposta.body.id).to.equal(5) // Verificar se o ID retornado é 5
+            expect(resposta.body.valor).to.equal(25.50) // Verificar se o valor foi alterado corretamente
+            expect(resposta.body.conta_origem_id).to.equal(1) // Verificar se a conta de origem permanece inalterada
+            expect(resposta.body.conta_destino_id).to.equal(2) // Verificar se a conta de destino permanece inalterada
+        })
+
+        // Teste para alteração parcial com valor inválido
+        it('Deve retornar falha com 422 quando tentar alterar o valor para abaixo de 10 reais', async() => {
+            // Dados para alteração parcial com valor inválido
+            const dadosAlteracao = {
+                valor: 5.00
+            }
+            
+            // Fazer requisição PATCH para alterar a transferência com ID 5
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .patch('/transferencias/5') // Definir endpoint transferencias com ID 5
+                .set('Content-Type', 'application/json') // Definir header Content-Type
+                .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
+                .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
+
+            // Verificar se retorna status 422 (Unprocessable Entity)
+            expect(resposta.status).to.equal(422)
+        })
+    })
+
+    // Grupo de testes para o endpoint PATCH /transferencias (alteração total)
+    describe('PATCH /transferencias (alteração total)', () => {
+        // Teste para alteração total de uma transferência
+        it('Deve retornar sucesso com 200 quando alterar totalmente uma transferencia com dados válidos', async() => {
+            // Dados para alteração total da transferência
+            const dadosAlteracao = {
+                conta_origem_id: 2,
+                conta_destino_id: 1,
+                valor: 200.00
+            }
+            
+            // Fazer requisição PATCH para alterar a transferência com ID 3
+            const resposta = await request(process.env.BASE_URL) // Definir base url
+                .patch('/transferencias/3') // Definir endpoint transferencias com ID 3
+                .set('Content-Type', 'application/json') // Definir header Content-Type
+                .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
+                .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
+
+            // Assertions para validar a resposta
+            expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
+            expect(resposta.body.id).to.equal(3) // Verificar se o ID retornado é 3
+            expect(resposta.body.valor).to.equal(200.00) // Verificar se o valor foi alterado corretamente
+            expect(resposta.body.conta_origem_id).to.equal(2) // Verificar se a conta de origem foi alterada corretamente
+            expect(resposta.body.conta_destino_id).to.equal(1) // Verificar se a conta de destino foi alterada corretamente
+        })    
+    })
 })
