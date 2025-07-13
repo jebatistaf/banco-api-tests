@@ -63,16 +63,16 @@ describe('Transferencias', () => {
         it('Deve retornar sucesso com 200 e dados iguais ao registro de transferencia contido no banco de dados quando o id for válido', async() => {
             // Fazer requisição GET para buscar a transferência com ID 5
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .get('/transferencias/5') // Definir endpoint transferencias com ID 5
+                .get('/transferencias/12') // Definir endpoint transferencias com ID 12
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
 
             // Assertions para validar a resposta
             expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
-            expect(resposta.body.id).to.equal(5) // Verificar se o ID retornado é 5
+            expect(resposta.body.id).to.equal(12) // Verificar se o ID retornado é 12
             expect(resposta.body.id).to.be.a('number') // Verificar se o ID é do tipo number
             expect(resposta.body.conta_origem_id).to.equal(1) // Verificar conta de origem
             expect(resposta.body.conta_destino_id).to.equal(2) // Verificar conta de destino
-            expect(resposta.body.valor).to.equal(25.50) // Verificar o valor da transferência
+            expect(resposta.body.valor).to.equal(11.00) // Verificar o valor da transferência
  
         })
     })
@@ -102,19 +102,19 @@ describe('Transferencias', () => {
         it('Deve retornar sucesso com 204 quando alterar parcialmente uma transferencia com dados válidos', async() => {
             // Dados para alteração parcial da transferência
             const dadosAlteracao = {
-                valor: 25.50
+                valor: 30.00
             }
             
-            // Fazer requisição PATCH para alterar a transferência com ID 5
+            // Fazer requisição PATCH para alterar a transferência com ID 20
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .patch('/transferencias/7') // Definir endpoint transferencias com ID 7
+                .patch('/transferencias/20') // Definir endpoint transferencias com ID 20
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
 
             // Assertions para validar a resposta
             expect(resposta.status).to.equal(204) // Verificar se o status é 204 (OK)
-            expect(resposta.body.valor).to.equal(25.50) // Verificar se o valor foi alterado corretamente
+            expect(resposta.body.valor).to.equal(30.00) // Verificar se o valor foi alterado corretamente
             expect(resposta.body.conta_origem_id).to.equal(1) // Verificar se a conta de origem permanece inalterada
             expect(resposta.body.conta_destino_id).to.equal(2) // Verificar se a conta de destino permanece inalterada
         })
@@ -126,9 +126,9 @@ describe('Transferencias', () => {
                 valor: 5.00
             }
             
-            // Fazer requisição PATCH para alterar a transferência com ID 5
+            // Fazer requisição PATCH para alterar a transferência com ID 20
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .patch('/transferencias/5') // Definir endpoint transferencias com ID 5
+                .patch('/transferencias/20') // Definir endpoint transferencias com ID 20
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
@@ -144,23 +144,23 @@ describe('Transferencias', () => {
         it('Deve retornar sucesso com 204 quando alterar totalmente uma transferencia com dados válidos', async() => {
             // Dados para alteração total da transferência
             const dadosAlteracao = {
-                conta_origem_id: 1,
-                conta_destino_id: 2,
-                valor: 13.00
+                conta_origem_id: 2,
+                conta_destino_id: 1,
+                valor: 133.00
             }
             
-            // Fazer requisição PATCH para alterar a transferência com ID 3
+            // Fazer requisição PATCH para alterar a transferência com ID 19
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .patch('/transferencias/6') // Definir endpoint transferencias com ID 6
+                .patch('/transferencias/19') // Definir endpoint transferencias com ID 19
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
 
             // Assertions para validar a resposta
             expect(resposta.status).to.equal(204) // Verificar se o status é 204 (OK)
-            expect(resposta.body.valor).to.equal(13.00) // Verificar se o valor foi alterado corretamente
-            expect(resposta.body.conta_origem_id).to.equal(1) // Verificar se a conta de origem foi alterada corretamente
-            expect(resposta.body.conta_destino_id).to.equal(2) // Verificar se a conta de destino foi alterada corretamente
+            expect(resposta.body.valor).to.equal(133.00) // Verificar se o valor foi alterado corretamente
+            expect(resposta.body.conta_origem_id).to.equal(2) // Verificar se a conta de origem foi alterada corretamente
+            expect(resposta.body.conta_destino_id).to.equal(1) // Verificar se a conta de destino foi alterada corretamente
         })    
     })
 })
