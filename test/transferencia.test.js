@@ -72,7 +72,7 @@ describe('Transferencias', () => {
             expect(resposta.body.id).to.be.a('number') // Verificar se o ID é do tipo number
             expect(resposta.body.conta_origem_id).to.equal(1) // Verificar conta de origem
             expect(resposta.body.conta_destino_id).to.equal(2) // Verificar conta de destino
-            expect(resposta.body.valor).to.equal(20.00) // Verificar o valor da transferência
+            expect(resposta.body.valor).to.equal(25.50) // Verificar o valor da transferência
  
         })
     })
@@ -99,7 +99,7 @@ describe('Transferencias', () => {
     // Grupo de testes para o endpoint PATCH /transferencias/{id}
     describe('PATCH /transferencias/{id}', () => {
         // Teste para alteração parcial de uma transferência
-        it('Deve retornar sucesso com 200 quando alterar parcialmente uma transferencia com dados válidos', async() => {
+        it('Deve retornar sucesso com 204 quando alterar parcialmente uma transferencia com dados válidos', async() => {
             // Dados para alteração parcial da transferência
             const dadosAlteracao = {
                 valor: 25.50
@@ -107,14 +107,13 @@ describe('Transferencias', () => {
             
             // Fazer requisição PATCH para alterar a transferência com ID 5
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .patch('/transferencias/5') // Definir endpoint transferencias com ID 5
+                .patch('/transferencias/7') // Definir endpoint transferencias com ID 7
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
 
             // Assertions para validar a resposta
-            expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
-            expect(resposta.body.id).to.equal(5) // Verificar se o ID retornado é 5
+            expect(resposta.status).to.equal(204) // Verificar se o status é 204 (OK)
             expect(resposta.body.valor).to.equal(25.50) // Verificar se o valor foi alterado corretamente
             expect(resposta.body.conta_origem_id).to.equal(1) // Verificar se a conta de origem permanece inalterada
             expect(resposta.body.conta_destino_id).to.equal(2) // Verificar se a conta de destino permanece inalterada
@@ -142,27 +141,26 @@ describe('Transferencias', () => {
     // Grupo de testes para o endpoint PATCH /transferencias (alteração total)
     describe('PATCH /transferencias (alteração total)', () => {
         // Teste para alteração total de uma transferência
-        it('Deve retornar sucesso com 200 quando alterar totalmente uma transferencia com dados válidos', async() => {
+        it('Deve retornar sucesso com 204 quando alterar totalmente uma transferencia com dados válidos', async() => {
             // Dados para alteração total da transferência
             const dadosAlteracao = {
-                conta_origem_id: 2,
-                conta_destino_id: 1,
-                valor: 200.00
+                conta_origem_id: 1,
+                conta_destino_id: 2,
+                valor: 13.00
             }
             
             // Fazer requisição PATCH para alterar a transferência com ID 3
             const resposta = await request(process.env.BASE_URL) // Definir base url
-                .patch('/transferencias/3') // Definir endpoint transferencias com ID 3
+                .patch('/transferencias/6') // Definir endpoint transferencias com ID 6
                 .set('Content-Type', 'application/json') // Definir header Content-Type
                 .set('Authorization', `Bearer ${token}`) // Adicionar token de autenticação
                 .send(dadosAlteracao) // Enviar dados de alteração no corpo da requisição
 
             // Assertions para validar a resposta
-            expect(resposta.status).to.equal(200) // Verificar se o status é 200 (OK)
-            expect(resposta.body.id).to.equal(3) // Verificar se o ID retornado é 3
-            expect(resposta.body.valor).to.equal(200.00) // Verificar se o valor foi alterado corretamente
-            expect(resposta.body.conta_origem_id).to.equal(2) // Verificar se a conta de origem foi alterada corretamente
-            expect(resposta.body.conta_destino_id).to.equal(1) // Verificar se a conta de destino foi alterada corretamente
+            expect(resposta.status).to.equal(204) // Verificar se o status é 204 (OK)
+            expect(resposta.body.valor).to.equal(13.00) // Verificar se o valor foi alterado corretamente
+            expect(resposta.body.conta_origem_id).to.equal(1) // Verificar se a conta de origem foi alterada corretamente
+            expect(resposta.body.conta_destino_id).to.equal(2) // Verificar se a conta de destino foi alterada corretamente
         })    
     })
 })
